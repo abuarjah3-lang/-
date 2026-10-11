@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" id="htmlRoot">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="pageTitle">ورشة التشريح التفاعلي ثلاثي الأبعاد</title>
+    <!-- مكتبة Google Model Viewer لعرض النماذج ثلاثية الأبعاد -->
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        :root {
+            --bg-color: #f7f9fc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --border-color: #e2e8f0;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.05), 0 4px 6px -4px rgba(0, 0, 0, 0.05);
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1300px;
+            margin: 0 auto 20px auto;
+            padding: 0 10px;
+        }
+
+        .brand-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-switcher {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            padding: 8px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: var(--shadow);
+            transition: all 0.2s;
+        }
+
+        .lang-switcher:hover {
+            background: #f1f5f9;
+            border-color: var(--accent-color);
+        }
+
+        .main-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr 340px;
+            gap: 20px;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 1024px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+        }
+
+        /* القائمة الجانبية للأعضاء */
+        .organs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-height: 650px;
+            overflow-y: auto;
+        }
+
+        .organ-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid transparent;
+            background: #fafafa;
+        }
+
+        .organ-item:hover, .organ-item.active {
+            background: #eff6ff;
+            border-color: #bfdbfe;
+        }
+
+        .organ-icon {
+            font-size: 26px;
+        }
+
+        .organ-info h4 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+        }
+
+        .organ-info p {
+            margin: 3px 0 0 0;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        /* نافذة العرض ثلاثي الأبعاد */
+        .viewer-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            min-height: 500px;
+        }
+
+        model-viewer {
+            width: 100%;
+            height: 420px;
+            background-color: transparent;
+            --poster-color: transparent;
+        }
+
+        .controls-bar {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: var(--shadow);
+            transition: background 0.2s;
+        }
+
+        .btn:hover {
+            background: #f1f5f9;
+        }
+
+        /* لوحة التفاصيل والمعلومات */
+        .details-panel h2 {
+            margin-top: 0;
+            font-size: 20px;
+            color: var(--accent-color);
+        }
+
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--border-color);
+        }
+
+        .fact-box {
+            background: #fdf4ff;
+            border: 1px solid #f5d0fe;
+            padding: 14px;
+            border-radius: 12px;
+            margin-top: 20px;
+            font-size: 13px;
+        }
+
+        .footer-note {
+            margin-top: 15px;
+            font-size: 11px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- الترويسة -->
+    <div class="header-container">
+        <h1 class="brand-title">
+            <span>🫀</span> <span data-i18n="mainTitle">ورشة التشريح التفاعلي</span>
+        </h1>
+        <button class="lang-switcher" id="langToggle" onclick="toggleLanguage()">English</button>
+    </div>
+
+    <!-- التخطيط الرئيسي -->
+    <div class="main-layout">
+        
+        <!-- 1. مكتبة الأعضاء (القائمة الجانبية) -->
+        <div class="card organs-list">
+            <h3 style="margin-top:0; font-size: 16px;" data-i18n="libraryTitle">مكتبة الأعضاء</h3>
+            
+            <div class="organ-item active" onclick="selectOrgan('heart')">
+                <span class="organ-icon">❤️</span>
+                <div class="organ-info">
+                    <h4 data-i18n="heartName">القلب</h4>
+                    <p data-i18n="heartDesc">الجهاز القلبي الوعائي</p>
+                </div>
+            </div>
+
+            <div class="organ-item" onclick="selectOrgan('brain')">
+                <span class="organ-icon">🧠</span>
+                <div class="organ-info">
+                    <h4 data-i18n="brainName">الدماغ</h4>
+                    <p data-i18n="brainDesc">الجهاز العصبي المركزي</p>
+                </div>
+            </div>
+
+            <div class="organ-item" onclick="selectOrgan('lungs')">
+                <span class="organ-icon">🫁</span>
+                <div class="organ-info">
+                    <h4 data-i18n="lungsName">الرئتان</h4>
+                    <p data-i18n="lungsDesc">الجهاز التنفسي</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. عارض النماذج ثلاثية الأبعاد -->
+        <div class="card viewer-container">
+            <div>
+                <span style="font-size: 13px; color: var(--text-muted);" data-i18n="modelSubtitle">نموذج ثلاثي الأبعاد · تفاعلي بالكامل</span>
+            </div>
+            
+            <!-- عنصر العرض ثلاثي الأبعاد (يمكنك استبدال رابط src برابط ملف glb الخاص بك) -->
+            <model-viewer 
+                id="modelViewer"
+                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
+                alt="نموذج تشريحي" 
+                auto-rotate 
+                camera-controls 
+                interaction-prompt="none">
+            </model-viewer>
+
+            <div class="controls-bar">
+                <button class="btn" onclick="toggleRotate()" data-i18n="autoRotate">دوران تلقائي 🔄</button>
+                <button class="btn" onclick="resetCamera()" data-i18n="resetView">إعادة ضبط ↺</button>
+            </div>
+        </div>
+
+        <!-- 3. لوحة التفاصيل والمعلومات -->
+        <div class="card details-panel">
+            <h2 id="detailTitle" data-i18n="heartTitle">القلب</h2>
+            <p id="detailText" style="font-size: 14px; line-height: 1.6;" data-i18n="heartFullDesc">
+                عضو عضلي يضخ الدم في جميع أنحاء الجسم، موصلاً الأكسجين والمغذيات إلى كل خلية. يقع خلف عظمة القص، قليلاً إلى اليسار.
+            </p>
+
+            <div class="stats-grid">
+                <div class="stat-row">
+                    <span data-i18n="statSize">الحجم:</span>
+                    <strong id="valSize" data-i18n="heartSizeVal">بحجم قبضة اليد</strong>
+                </div>
+                <div class="stat-row">
+                    <span data-i18n="statWeight">الوزن:</span>
+                    <strong id="valWeight" data-i18n="heartWeightVal">250 - 350 غرام</strong>
+                </div>
+                <div class="stat-row">
+                    <span data-i18n="statRate">النشاط:</span>
+                    <strong id="valRate" data-i18n="heartRateVal">~100 ألف نبضة يومياً</strong>
+                </div>
+            </div>
+
+            <div class="fact-box">
+                <strong data-i18n="didYouKnow">💡 هل تعلم؟</strong>
+                <p id="factText" style="margin: 5px 0 0 0;" data-i18n="heartFact">ينبض القلب حوالي 2.5 مليار مرة خلال متوسط العمر البشري!</p>
+            </div>
+
+            <div class="footer-note" data-i18n="footerText">
+                مخصص لأغراض التعلم وتبادل المعلومات التشريحية فقط.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // قاموس الترجمات اللغوية (عربي / إنجليزي)
+        const translations = {
+            ar: {
+                pageTitle: "ورشة التشريح التفاعلي ثلاثي الأبعاد",
+                mainTitle: "ورشة التشريح التفاعلي",
+                libraryTitle: "مكتبة الأعضاء",
+                heartName: "القلب",
+                heartDesc: "الجهاز القلبي الوعائي",
+                brainName: "الدماغ",
+                brainDesc: "الجهاز العصبي المركزي",
+                lungsName: "الرئتان",
+                lungsDesc: "الجهاز التنفسي",
+                modelSubtitle: "نموذج ثلاثي الأبعاد · تفاعلي بالكامل",
+                autoRotate: "دوران تلقائي 🔄",
+                resetView: "إعادة ضبط ↺",
+                heartTitle: "القلب",
+                heartFullDesc: "عضو عضلي يضخ الدم في جميع أنحاء الجسم، موصلاً الأكسجين والمغذيات إلى كل خلية. يقع خلف عظمة القص، قليلاً إلى اليسار.",
+                statSize: "الحجم:",
+                heartSizeVal: "بحجم قبضة اليد",
+                statWeight: "الوزن:",
+                heartWeightVal: "250 - 350 غرام",
+                statRate: "النشاط:",
+                heartRateVal: "~100 ألف نبضة يومياً",
+                didYouKnow: "💡 هل تعلم؟",
+                heartFact: "ينبض القلب حوالي 2.5 مليار مرة خلال متوسط العمر البشري!",
+                footerText: "مخصص لأغراض التعلم وتبادل المعلومات التشريحية فقط."
+            },
+            en: {
+                pageTitle: "Interactive 3D Anatomy Workshop",
+                mainTitle: "Interactive Anatomy Workshop",
+                libraryTitle: "Organ Library",
+                heartName: "Heart",
+                heartDesc: "Cardiovascular System",
+                brainName: "Brain",
+                brainDesc: "Central Nervous System",
+                lungsName: "Lungs",
+                lungsDesc: "Respiratory System",
+                modelSubtitle: "3D Model · Fully Interactive",
+                autoRotate: "Auto Rotate 🔄",
+                resetView: "Reset View ↺",
+                heartTitle: "Heart",
+                heartFullDesc: "A muscular organ that pumps blood through the body, delivering oxygen and nutrients to every cell. Located behind the sternum, slightly to the left.",
+                statSize: "Size:",
+                heartSizeVal: "Approx. fist size",
+                statWeight: "Weight:",
+                heartWeightVal: "250 - 350 grams",
+                statRate: "Activity:",
+                heartRateVal: "~100,000 beats/day",
+                didYouKnow: "💡 Did you know?",
+                heartFact: "The heart beats about 2.5 billion times during an average lifetime!",
+                footerText: "Dedicated for learning and anatomical information exchange purposes only."
+            }
+        };
+
+        let currentLang = 'ar';
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'ar' ? 'en' : 'ar';
+            const htmlRoot = document.getElementById('htmlRoot');
+            const langToggle = document.getElementById('langToggle');
+
+            htmlRoot.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            htmlRoot.setAttribute('lang', currentLang);
+            langToggle.textContent = currentLang === 'ar' ? 'English' : 'عربي';
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[currentLang][key]) {
+                    el.textContent = translations[currentLang][key];
+                }
+            });
+        }
+
+        // تبديل حالة الدوران التلقائي للنموذج ثلاثي الأبعاد
+        function toggleRotate() {
+            const viewer = document.getElementById('modelViewer');
+            viewer.autoRotate = !viewer.autoRotate;
+        }
+
+        // إعادة ضبط زاوية الكاميرا للنموذج
+        function resetCamera() {
+            const viewer = document.getElementById('modelViewer');
+            viewer.cameraTarget = 'auto';
+            viewer.jumpCameraToGoal();
+        }
+
+        // محاكاة تبديل الأعضاء وتحديث اللوحة الجانبية
+        function selectOrgan(organKey) {
+            // تحديث حالة التحديد البصري في القائمة
+            document.querySelectorAll('.organ-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
+
+            // يمكنك هنا تخصيص تغيير روابط النماذج ثلاثية الأبعاد (src) والنصوص الفعلية لكل عضو بناءً على organKey
+        }
+    </script>
+</body>
+</html>

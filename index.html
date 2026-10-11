@@ -264,16 +264,15 @@
             </div>
         </div>
 
-        <!-- العرض ثلاثي الأبعاد للأعضاء -->
+        <!-- العرض ثلاثي الأبعاد -->
         <div class="card viewer-container">
             <div style="width: 100%; text-align: start;">
                 <span style="font-size: 13px; color: var(--text-muted);" data-i18n="modelSubtitle">نموذج ثلاثي الأبعاد · تفاعلي</span>
             </div>
             
-            <!-- عارض النماذج التشريحية -->
             <model-viewer 
                 id="modelViewer"
-                src="https://modelviewer.dev/shared-assets/models/Horse.glb" 
+                src="https://modelviewer.dev/shared-assets/models/NeilArmstrong.glb" 
                 alt="نموذج تشريحي ثلاثي الأبعاد" 
                 auto-rotate 
                 camera-controls>
@@ -320,19 +319,6 @@
     </div>
 
     <script>
-        // روابط نماذج ثلاثية الأبعاد لكل عضو (يمكن استبدالها بروابط ملفات .glb حقيقية خاصة بك لاحقاً)
-        const organModels = {
-            heart: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            brain: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
-            lungs: "https://modelviewer.dev/shared-assets/models/Horse.glb",
-            liver: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            kidneys: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
-            eye: "https://modelviewer.dev/shared-assets/models/Horse.glb",
-            intestines: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
-            pancreas: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
-            skin: "https://modelviewer.dev/shared-assets/models/Horse.glb"
-        };
-
         const organsData = {
             ar: {
                 heart: { name: "القلب", title: "القلب", desc: "عضو عضلي يضخ الدم في جميع أنحاء الجسم، موصلاً الأكسجين والمغذيات إلى كل خلية. يقع خلف عظمة القص، قليلاً إلى اليسار.", size: "بحجم قبضة اليد", weight: "250 - 350 غرام", rate: "~100 ألف نبضة يومياً", fact: "ينبض القلب حوالي 2.5 مليار مرة خلال متوسط العمر البشري!" },
@@ -364,19 +350,11 @@
         function selectOrgan(organKey, element) {
             activeOrganKey = organKey;
             
-            // تحديث التحديد البصري في القائمة
             document.querySelectorAll('.organ-item').forEach(item => item.classList.remove('active'));
             if (element) {
                 element.classList.add('active');
             }
 
-            // تحديث نموذج العرض ثلاثي الأبعاد الخاص بالعضو
-            const viewer = document.getElementById('modelViewer');
-            if (organModels[organKey]) {
-                viewer.src = organModels[organKey];
-            }
-
-            // تحديث النصوص في لوحة المعلومات
             const data = organsData[currentLang][organKey];
             document.getElementById('currentOrganTitle').textContent = data.name;
             document.getElementById('detailTitle').textContent = data.title;

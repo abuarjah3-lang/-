@@ -144,12 +144,6 @@
             box-shadow: var(--shadow);
         }
 
-        .btn-primary {
-            background: var(--accent-color);
-            color: white;
-            border: none;
-        }
-
         /* لوحة التفاصيل */
         .details-panel h2 {
             margin-top: 0;
@@ -270,17 +264,17 @@
             </div>
         </div>
 
-        <!-- العرض ثلاثي الأبعاد -->
+        <!-- العرض ثلاثي الأبعاد للأعضاء -->
         <div class="card viewer-container">
             <div style="width: 100%; text-align: start;">
                 <span style="font-size: 13px; color: var(--text-muted);" data-i18n="modelSubtitle">نموذج ثلاثي الأبعاد · تفاعلي</span>
             </div>
             
-            <!-- عارض النماذج (يمكن وضع روابط نماذج glb حقيقية لكل عضو لاحقاً) -->
+            <!-- عارض النماذج التشريحية -->
             <model-viewer 
                 id="modelViewer"
-                src="https://modelviewer.dev/shared-assets/models/Astronaut.glb" 
-                alt="نموذج ثلاثي الأبعاد" 
+                src="https://modelviewer.dev/shared-assets/models/Horse.glb" 
+                alt="نموذج تشريحي ثلاثي الأبعاد" 
                 auto-rotate 
                 camera-controls>
             </model-viewer>
@@ -326,172 +320,41 @@
     </div>
 
     <script>
+        // روابط نماذج ثلاثية الأبعاد لكل عضو (يمكن استبدالها بروابط ملفات .glb حقيقية خاصة بك لاحقاً)
+        const organModels = {
+            heart: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+            brain: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+            lungs: "https://modelviewer.dev/shared-assets/models/Horse.glb",
+            liver: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+            kidneys: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+            eye: "https://modelviewer.dev/shared-assets/models/Horse.glb",
+            intestines: "https://modelviewer.dev/shared-assets/models/Astronaut.glb",
+            pancreas: "https://modelviewer.dev/shared-assets/models/RobotExpressive.glb",
+            skin: "https://modelviewer.dev/shared-assets/models/Horse.glb"
+        };
+
         const organsData = {
             ar: {
-                heart: {
-                    name: "القلب",
-                    title: "القلب",
-                    desc: "عضو عضلي يضخ الدم في جميع أنحاء الجسم، موصلاً الأكسجين والمغذيات إلى كل خلية. يقع خلف عظمة القص، قليلاً إلى اليسار.",
-                    size: "بحجم قبضة اليد",
-                    weight: "250 - 350 غرام",
-                    rate: "~100 ألف نبضة يومياً",
-                    fact: "ينبض القلب حوالي 2.5 مليار مرة خلال متوسط العمر البشري!"
-                },
-                brain: {
-                    name: "الدماغ",
-                    title: "الدماغ",
-                    desc: "مركز التحكم الرئيسي في الجسم، يدير الأفكار، الذاكرة، الحركات، ووظائف الأعضاء الحيوية.",
-                    size: "بحجم بطيخة صغيرة تقريباً",
-                    weight: "~1.4 كغ",
-                    rate: "يستهلك 20% من طاقة الجسم",
-                    fact: "يحتوي الدماغ على حوالي 86 مليار خلية عصبية!"
-                },
-                lungs: {
-                    name: "الرئتان",
-                    title: "الرئتان",
-                    desc: "العضوان الأساسيان في الجهاز التنفسي، تقومان بتبادل الغازات وأكسدة الدم.",
-                    size: "تتوسعان لملء التجويف الصدري",
-                    weight: "1.3 كغ تقريباً",
-                    rate: "~20 ألف نفس يومياً",
-                    fact: "مساحة سطح الرئتين تعادل تقريبا مساحة ملعب تنس!"
-                },
-                liver: {
-                    name: "الكبد",
-                    title: "الكبد",
-                    desc: "أكبر غدة في الجسم، تقوم بتنقية السموم، إنتاج العصارة الصفراوية، وتخزين الطاقة.",
-                    size: "أكبر عضو داخلي صلب",
-                    weight: "1.5 كغ",
-                    rate: "يقوم بأكثر من 500 وظيفة حيوية",
-                    fact: "الكبد هو العضو البشري الوحيد القادر على تجديد نفسه بالكامل!"
-                },
-                kidneys: {
-                    name: "الكلى",
-                    title: "الكلى",
-                    desc: "عضوان على شكل حبة فاصوليا، يقومان بتصفية الفضلات والسوائل الزائدة من الدم.",
-                    size: "طول كل منها ~12 سم",
-                    weight: "120 - 150 غرام لكل كلى",
-                    rate: "تفرز ~1.5 لتر بول يومياً",
-                    fact: "تصفي الكلتان حوالي 180 لتراً من الدم يومياً!"
-                },
-                eye: {
-                    name: "العين",
-                    title: "العين",
-                    desc: "عضو الإبصار المسؤول عن التقاط الضوء وتحويله إلى إشارات عصبية يفهمها الدماغ.",
-                    size: "قطرها حوالي 2.5 سم",
-                    weight: "~7.5 غرام",
-                    rate: "ترمش العين ~15-20 مرة في الدقيقة",
-                    fact: "تستطيع العين البشرية تمييز أكثر من 10 ملايين لون مختلف!"
-                },
-                intestines: {
-                    name: "الأمعاء",
-                    title: "الأمعاء",
-                    desc: "جزء أساسي من الجهاز الهضمي، مسؤولة عن إتمام هضم الطعام وامتصاص العناصر الغذائية.",
-                    size: "يبلغ طولها الإجمالي حوالي 7-8 أمتار",
-                    weight: "متغيرة حسب المحتوى",
-                    rate: "تستغرق عملية الهضم ساعات طويلة",
-                    fact: "تحتوي الأمعاء على مليارات البكتيريا النافعة الضرورية للصحة!"
-                },
-                pancreas: {
-                    name: "البنكرياس",
-                    title: "البنكرياس",
-                    desc: "غدة تفرز الأنزيمات الهاضمة والهرمونات الحيوية مثل الأنسولين لتنظيم السكر.",
-                    size: "طولها حوالي 15 سم",
-                    weight: "~70 - 100 غرام",
-                    rate: "تنظيم مستوى السكر بانتظام",
-                    fact: "ينتج البنكرياس حوالي لتر من العصارة الهاضمة يومياً!"
-                },
-                skin: {
-                    name: "الجلد",
-                    title: "الجلد",
-                    desc: "أكبر عضو في جسم الإنسان، يشكل الغطاء الخارجي ويحمي الأعضاء الداخلية.",
-                    size: "مساحته ~2 متر مربع",
-                    weight: "يشكل 16% من وزن الجسم",
-                    rate: "يتجدد بالكامل كل شهر",
-                    fact: "ي بفقد الإنسان ملايين الخلايا الميتة من الجلد يومياً!"
-                }
+                heart: { name: "القلب", title: "القلب", desc: "عضو عضلي يضخ الدم في جميع أنحاء الجسم، موصلاً الأكسجين والمغذيات إلى كل خلية. يقع خلف عظمة القص، قليلاً إلى اليسار.", size: "بحجم قبضة اليد", weight: "250 - 350 غرام", rate: "~100 ألف نبضة يومياً", fact: "ينبض القلب حوالي 2.5 مليار مرة خلال متوسط العمر البشري!" },
+                brain: { name: "الدماغ", title: "الدماغ", desc: "مركز التحكم الرئيسي في الجسم، يدير الأفكار، الذاكرة، الحركات، ووظائف الأعضاء الحيوية.", size: "بحجم بطيخة صغيرة تقريباً", weight: "~1.4 كغ", rate: "يستهلك 20% من طاقة الجسم", fact: "يحتوي الدماغ على حوالي 86 مليار خلية عصبية!" },
+                lungs: { name: "الرئتان", title: "الرئتان", desc: "العضوان الأساسيان في الجهاز التنفسي، تقومان بتبادل الغازات وأكسدة الدم.", size: "تتوسعان لملء التجويف الصدري", weight: "1.3 كغ تقريباً", rate: "~20 ألف نفس يومياً", fact: "مساحة سطح الرئتين تعادل تقريبا مساحة ملعب تنس!" },
+                liver: { name: "الكبد", title: "الكبد", desc: "أكبر غدة في الجسم، تقوم بتنقية السموم، إنتاج العصارة الصفراوية، وتخزين الطاقة.", size: "أكبر عضو داخلي صلب", weight: "1.5 كغ", rate: "يقوم بأكثر من 500 وظيفة حيوية", fact: "الكبد هو العضو البشري الوحيد القادر على تجديد نفسه بالكامل!" },
+                kidneys: { name: "الكلى", title: "الكلى", desc: "عضوان على شكل حبة فاصوليا، يقومان بتصفية الفضلات والسوائل الزائدة من الدم.", size: "طول كل منها ~12 سم", weight: "120 - 150 غرام لكل كلى", rate: "تفرز ~1.5 لتر بول يومياً", fact: "تصفي الكلتان حوالي 180 لتراً من الدم يومياً!" },
+                eye: { name: "العين", title: "العين", desc: "عضو الإبصار المسؤول عن التقاط الضوء وتحويله إلى إشارات عصبية يفهمها الدماغ.", size: "قطرها حوالي 2.5 سم", weight: "~7.5 غرام", rate: "ترمش العين ~15-20 مرة في الدقيقة", fact: "تستطيع العين البشرية تمييز أكثر من 10 ملايين لون مختلف!" },
+                intestines: { name: "الأمعاء", title: "الأمعاء", desc: "جزء أساسي من الجهاز الهضمي، مسؤولة عن إتمام هضم الطعام وامتصاص العناصر الغذائية.", size: "يبلغ طولها الإجمالي حوالي 7-8 أمتار", weight: "متغيرة حسب المحتوى", rate: "تستغرق عملية الهضم ساعات طويلة", fact: "تحتوي الأمعاء على مليارات البكتيريا النافعة الضرورية للصحة!" },
+                pancreas: { name: "البنكرياس", title: "البنكرياس", desc: "غدة تفرز الأنزيمات الهاضمة والهرمونات الحيوية مثل الأنسولين لتنظيم السكر.", size: "طولها حوالي 15 سم", weight: "~70 - 100 غرام", rate: "تنظيم مستوى السكر بانتظام", fact: "ينتج البنكرياس حوالي لتر من العصارة الهاضمة يومياً!" },
+                skin: { name: "الجلد", title: "الجلد", desc: "أكبر عضو في جسم الإنسان، يشكل الغطاء الخارجي ويحمي الأعضاء الداخلية.", size: "مساحته ~2 متر مربع", weight: "يشكل 16% من وزن الجسم", rate: "يتجدد بالكامل كل شهر", fact: "يفقد الإنسان ملايين الخلايا الميتة من الجلد يومياً!" }
             },
             en: {
-                heart: {
-                    name: "Heart",
-                    title: "Heart",
-                    desc: "A muscular organ that pumps blood through the body, delivering oxygen and nutrients to every cell.",
-                    size: "Approx. fist size",
-                    weight: "250 - 350 grams",
-                    rate: "~100,000 beats/day",
-                    fact: "The heart beats about 2.5 billion times during an average lifetime!"
-                },
-                brain: {
-                    name: "Brain",
-                    title: "Brain",
-                    desc: "The primary control center managing thoughts, memory, movements, and vital bodily functions.",
-                    size: "Approx. grapefruit size",
-                    weight: "~1.4 kg",
-                    rate: "Uses 20% of body energy",
-                    fact: "The brain contains about 86 billion neurons!"
-                },
-                lungs: {
-                    name: "Lungs",
-                    title: "Lungs",
-                    desc: "The core organs of the respiratory system, responsible for gas exchange and blood oxygenation.",
-                    size: "Fill the chest cavity",
-                    weight: "Approx. 1.3 kg",
-                    rate: "~20,000 breaths/day",
-                    fact: "The surface area of the lungs is roughly equal to a tennis court!"
-                },
-                liver: {
-                    name: "Liver",
-                    title: "Liver",
-                    desc: "The largest internal organ, handling detoxification, bile production, and metabolism.",
-                    size: "Largest solid internal organ",
-                    weight: "1.5 kg",
-                    rate: "Performs over 500 vital functions",
-                    fact: "The liver is the only human organ capable of complete regeneration!"
-                },
-                kidneys: {
-                    name: "Kidneys",
-                    title: "Kidneys",
-                    desc: "Bean-shaped organs that filter waste products and excess fluids from the blood.",
-                    size: "Approx. 12 cm long each",
-                    weight: "120 - 150 grams each",
-                    rate: "Filters blood continuously",
-                    fact: "The kidneys filter about 180 liters of blood every day!"
-                },
-                eye: {
-                    name: "Eye",
-                    title: "Eye",
-                    desc: "The sensory organ responsible for capturing light and converting it into neural signals.",
-                    size: "Approx. 2.5 cm diameter",
-                    weight: "~7.5 grams",
-                    rate: "Blinks ~15-20 times/minute",
-                    fact: "The human eye can distinguish over 10 million different colors!"
-                },
-                intestines: {
-                    name: "Intestines",
-                    title: "Intestines",
-                    desc: "Key digestive organs responsible for nutrient absorption and waste elimination.",
-                    size: "Approx. 7-8 meters long",
-                    weight: "Variable",
-                    rate: "Continuous digestion process",
-                    fact: "The intestines house trillions of beneficial gut bacteria!"
-                },
-                pancreas: {
-                    name: "Pancreas",
-                    title: "Pancreas",
-                    desc: "A gland secreting digestive enzymes and vital hormones like insulin to regulate blood sugar.",
-                    size: "Approx. 15 cm long",
-                    weight: "~70 - 100 grams",
-                    rate: "Continuous hormonal regulation",
-                    fact: "The pancreas produces about a liter of digestive juices daily!"
-                },
-                skin: {
-                    name: "Skin",
-                    title: "Skin",
-                    desc: "The body's largest organ, forming an external protective barrier against the environment.",
-                    size: "Approx. 2 square meters",
-                    weight: "Accounts for 16% of body weight",
-                    rate: "Constantly regenerating",
-                    fact: "Humans shed millions of dead skin cells every single day!"
-                }
+                heart: { name: "Heart", title: "Heart", desc: "A muscular organ that pumps blood through the body, delivering oxygen and nutrients to every cell.", size: "Approx. fist size", weight: "250 - 350 grams", rate: "~100,000 beats/day", fact: "The heart beats about 2.5 billion times during an average lifetime!" },
+                brain: { name: "Brain", title: "Brain", desc: "The primary control center managing thoughts, memory, movements, and vital bodily functions.", size: "Approx. grapefruit size", weight: "~1.4 kg", rate: "Uses 20% of body energy", fact: "The brain contains about 86 billion neurons!" },
+                lungs: { name: "Lungs", title: "Lungs", desc: "The core organs of the respiratory system, responsible for gas exchange and blood oxygenation.", size: "Fill the chest cavity", weight: "Approx. 1.3 kg", rate: "~20,000 breaths/day", fact: "The surface area of the lungs is roughly equal to a tennis court!" },
+                liver: { name: "Liver", title: "Liver", desc: "The largest internal organ, handling detoxification, bile production, and metabolism.", size: "Largest solid internal organ", weight: "1.5 kg", rate: "Performs over 500 vital functions", fact: "The liver is the only human organ capable of complete regeneration!" },
+                kidneys: { name: "Kidneys", title: "Kidneys", desc: "Bean-shaped organs that filter waste products and excess fluids from the blood.", size: "Approx. 12 cm long each", weight: "120 - 150 grams each", rate: "Filters blood continuously", fact: "The kidneys filter about 180 liters of blood every day!" },
+                eye: { name: "Eye", title: "Eye", desc: "The sensory organ responsible for capturing light and converting it into neural signals.", size: "Approx. 2.5 cm diameter", weight: "~7.5 grams", rate: "Blinks ~15-20 times/minute", fact: "The human eye can distinguish over 10 million different colors!" },
+                intestines: { name: "Intestines", title: "Intestines", desc: "Key digestive organs responsible for nutrient absorption and waste elimination.", size: "Approx. 7-8 meters long", weight: "Variable", rate: "Continuous digestion process", fact: "The intestines house trillions of beneficial gut bacteria!" },
+                pancreas: { name: "Pancreas", title: "Pancreas", desc: "A gland secreting digestive enzymes and vital hormones like insulin to regulate blood sugar.", size: "Approx. 15 cm long", weight: "~70 - 100 grams", rate: "Continuous hormonal regulation", fact: "The pancreas produces about a liter of digestive juices daily!" },
+                skin: { name: "Skin", title: "Skin", desc: "The body's largest organ, forming an external protective barrier against the environment.", size: "Approx. 2 square meters", weight: "Accounts for 16% of body weight", rate: "Constantly regenerating", fact: "Humans shed millions of dead skin cells every single day!" }
             }
         };
 
@@ -505,6 +368,12 @@
             document.querySelectorAll('.organ-item').forEach(item => item.classList.remove('active'));
             if (element) {
                 element.classList.add('active');
+            }
+
+            // تحديث نموذج العرض ثلاثي الأبعاد الخاص بالعضو
+            const viewer = document.getElementById('modelViewer');
+            if (organModels[organKey]) {
+                viewer.src = organModels[organKey];
             }
 
             // تحديث النصوص في لوحة المعلومات
@@ -527,7 +396,6 @@
             htmlRoot.setAttribute('lang', currentLang);
             langToggle.textContent = currentLang === 'ar' ? 'English' : 'عربي';
 
-            // تحديث العناوين العامة الثابتة
             const generalTrans = {
                 ar: { libraryTitle: "مكتبة الأعضاء", modelSubtitle: "نموذج ثلاثي الأبعاد · تفاعلي", autoRotate: "دوران تلقائي 🔄", resetView: "إعادة ضبط ↺", statSize: "الحجم:", statWeight: "الوزن:", statRate: "النشاط:", didYouKnow: "💡 هل تعلم؟" },
                 en: { libraryTitle: "Organ Library", modelSubtitle: "3D Model · Interactive", autoRotate: "Auto Rotate 🔄", resetView: "Reset ↺", statSize: "Size:", statWeight: "Weight:", statRate: "Activity:", didYouKnow: "💡 Did you know?" }
@@ -540,7 +408,6 @@
                 }
             });
 
-            // تحديث تفاصيل العضو الحالي باللغة الجديدة
             selectOrgan(activeOrganKey, null);
         }
 
@@ -556,5 +423,4 @@
         }
     </script>
 </body>
-</html>
 </html>
